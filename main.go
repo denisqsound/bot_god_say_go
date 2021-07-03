@@ -1,13 +1,10 @@
 package main
 
 import (
-	"fmt"
+	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/joho/godotenv"
-	"github.com/levigross/grequests"
-    "github.com/robfig/cron/v3"
 	"log"
 	"os"
-	"strconv"
 )
 
 func init() {
@@ -19,21 +16,48 @@ func init() {
 // Точка входа программы
 func main() {
 	botToken, _ := os.LookupEnv("TOKEN")
-	botApi := "https://api.telegram.org/bot"
-	botUrl := botApi + botToken
-	offset := 0
 
-	updates, err := getUpdates(botUrl, offset)
+	bot, err := tgbotapi.NewBotAPI(botToken)
 	if err != nil {
-		log.Fatalln("Unable to make request: ", err)
+		log.Panic(err)
+	}
+	bot.Debug = true
+
+	log.Printf("Authorized on account %s", bot.Self.UserName)
+
+	u := tgbotapi.NewUpdate(0)
+	u.Timeout = 60
+
+	updates, err := bot.GetUpdatesChan(u)
+
+	for update := range updates {
+		if update.Message == nil { // ignore any non-Message Updates
+			continue
+		}
+
+		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+		msg.ReplyToMessageID = update.Message.MessageID
+
+		bot.Send(msg)
 	}
 
-	c := cron.New()
-	c.AddFunc("@every second", Respond(botUrl, updates)
-	{
-		fmt.Printf("Every second ")
-	})
-	c.Start()
+	//////////////////////////////////////////////////
+
+	//botToken, _ := os.LookupEnv("TOKEN")
+	//botApi := "https://api.telegram.org/bot"
+	//botUrl := botApi + botToken
+	//offset := 0
+
+	//updates, err := getUpdates(botUrl, offset)
+	//if err != nil {
+	//	log.Fatalln("Unable to make request: ", err)
+	//}
+
+	//c := cron.New()
+	//c.AddFunc("@every 10s", func() { SendMessage(botUrl, updates) })
+	//c.Start()
 
 	//for {
 	//	updates, err := getUpdates(botUrl, offset)
@@ -53,39 +77,38 @@ func main() {
 }
 
 // Запрос обновлений
-func getUpdates(botUrl string, offset int) ([]Update, error) {
-	ro := &grequests.RequestOptions{Params: map[string]string{"offset": strconv.Itoa(offset)}}
-	res, err := grequests.Get(botUrl+"/getUpdates", ro)
-	if err != nil {
-		log.Fatalln("Unable to make request: ", err)
-	}
-
-	resp := ResResponse{}
-	err = res.JSON(&resp)
-	if err != nil {
-		log.Fatalln("Unable to make request: ", err)
-	}
-
-	return resp.Result, nil
-
-}
+//func getUpdates(botUrl string, offset int) ([]Update, error) {
+//	ro := &grequests.RequestOptions{Params: map[string]string{"offset": strconv.Itoa(offset)}}
+//	res, err := grequests.Get(botUrl+"/getUpdates", ro)
+//	if err != nil {
+//		log.Fatalln("Unable to make request: ", err)
+//	}
+//
+//	resp := ResResponse{}
+//	err = res.JSON(&resp)
+//	if err != nil {
+//		log.Fatalln("Unable to make request: ", err)
+//	}
+//
+//	return resp.Result, nil
+//
+//}
 
 // Отвечает на обновление
-
-func SendMessage(botUrl string, update Update) {
-	botMessage := BotMessage{}
-	botMessage.ChatId = update.Message.Chat.ChatId
-	botMessage.Photo = "https://www.pinterest.com/pin/68117013100642866/"
-
-	ro := &grequests.RequestOptions{
-		Headers: map[string]string{"Content-Type": "application/json"},
-		JSON:    &botMessage,
-	}
-	_, err := grequests.Post(botUrl+"/sendPhoto", ro)
-	if err != nil {
-		log.Fatalln("Unable to make request: ", err)
-	}
-
-	return
-
-}
+//func SendMessage(botUrl string, update Update) {
+//	botMessage := BotMessage{}
+//	botMessage.ChatId = update.Message.Chat.ChatId
+//	botMessage.Photo = "https://www.pinterest.com/pin/68117013100642866/"
+//
+//	ro := &grequests.RequestOptions{
+//		Headers: map[string]string{"Content-Type": "application/json"},
+//		JSON:    &botMessage,
+//	}
+//	_, err := grequests.Post(botUrl+"/sendPhoto", ro)
+//	if err != nil {
+//		log.Fatalln("Unable to make request: ", err)
+//	}
+//
+//	return
+//
+//}
