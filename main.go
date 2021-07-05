@@ -39,7 +39,6 @@ var IMG = map[int]string{
 }
 
 func main() {
-	//var ChatId int64
 	botToken, _ := os.LookupEnv("TOKEN")
 	bot, err := tgbotapi.NewBotAPI(botToken)
 	if err != nil {
@@ -53,9 +52,6 @@ func main() {
 	u.Timeout = 10
 	updates, err := bot.GetUpdatesChan(u)
 
-	// TODO Получить ID чата
-	// TODO Начать в цикле слать картинки
-
 	for update := range updates {
 		log.Printf("BOT UPDATE : %s", update.Message)
 		if update.Message == nil { // ignore any non-Message Updates
@@ -63,7 +59,6 @@ func main() {
 		}
 
 		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
-		//ChatId = update.Message.Chat.ID
 
 		if update.Message.Text == "/start" {
 			for {
