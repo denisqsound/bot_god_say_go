@@ -64,7 +64,7 @@ func main() {
 			for {
 				log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 				msg := tgbotapi.NewPhotoShare(update.Message.Chat.ID, RandomImage())
-				time.Sleep(5 * time.Second)
+				time.Sleep(24 * time.Hour)
 				bot.Send(msg)
 			}
 
