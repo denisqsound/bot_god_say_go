@@ -56,16 +56,12 @@ func main() {
 					Bytes: photoBytes,
 				}
 
-				time.Sleep(5 * time.Second)
 				_, err = bot.Send(tgbotapi.NewPhotoUpload(update.Message.Chat.ID, photoFileBytes))
 				if err != nil {
 					log.Fatalln("Unable send photo: ", err)
 				}
-
-				_, err = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, fileName))
-				if err != nil {
-					log.Fatalln("Unable send photo: ", err)
-				}
+				// ToDo брать время из конфига
+				time.Sleep(86400 * time.Second)
 
 			}
 

@@ -1,1 +1,4 @@
 # bot_god_say_go
+
+
+tmux attach -t bot
