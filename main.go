@@ -61,7 +61,7 @@ func main() {
 					log.Fatalln("Unable send photo: ", err)
 				}
 				// ToDo брать время из конфига
-				time.Sleep(86400 * time.Second)
+				time.Sleep(20 * time.Second)
 
 			}
 
