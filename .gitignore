@@ -15,7 +15,6 @@
 # vendor/
 /.env
 .env
-/bible_app/
 .idea
 /bot_god_say_go
 /vendor/

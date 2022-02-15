@@ -44,7 +44,7 @@ func main() {
 
 		if update.Message.Text == "/start" {
 			for {
-				fileName := fmt.Sprintf("bible_app/bible-%d.JPG", Random(1, 402))
+				fileName := fmt.Sprintf("../bible_app/bible-%d.JPG", Random(1, 402))
 
 				photoBytes, err := ioutil.ReadFile(fileName)
 				if err != nil {
