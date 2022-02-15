@@ -56,7 +56,9 @@ func main() {
 					Bytes: photoBytes,
 				}
 
-				_, err = bot.Send(tgbotapi.NewPhotoUpload(update.Message.Chat.ID, photoFileBytes))
+				_, _ = bot.Send(tgbotapi.NewPhotoUpload(update.Message.Chat.ID, photoFileBytes))
+				_, err = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "Я родился"))
+
 				if err != nil {
 					log.Fatalln("Unable send photo: ", err)
 				}
