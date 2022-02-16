@@ -18,6 +18,7 @@ func init() {
 }
 
 // 401 картинка скачана 10 июля 2021 года
+// 516 уникальных картинок до 16 февраля 2022 года
 
 func main() {
 	botToken, _ := os.LookupEnv("TOKEN")
@@ -44,7 +45,7 @@ func main() {
 
 		if update.Message.Text == "/start" {
 			for {
-				fileName := fmt.Sprintf("/bible_app/bible-%d.JPG", Random(1, 402))
+				fileName := fmt.Sprintf("../bible_app/bible-%d.JPG", Random(1, 516))
 
 				photoBytes, err := ioutil.ReadFile(fileName)
 				if err != nil {
