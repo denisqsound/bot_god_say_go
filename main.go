@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/joho/godotenv"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"os"
@@ -33,7 +35,7 @@ func main() {
 
 	for update := range updates {
 
-		log.Printf("BOT UPDATE : %s", update.Message)
+		log.Printf("BOT UPDATE : %v", update.Message)
 		if update.Message == nil { // ignore any non-Message Updates
 			continue
 		}
@@ -42,26 +44,28 @@ func main() {
 
 		if update.Message.Text == "/start" {
 			for {
-				//fileName := fmt.Sprintf("/bible_app/bible-%d.JPG", Random(1, 402))
+				fileName := fmt.Sprintf("/bible_app/bible-%d.JPG", Random(1, 402))
 
-				//photoBytes, err := ioutil.ReadFile(fileName)
-				//if err != nil {
-				//	log.Fatalln("Unable read file: ", err)
-				//}
+				photoBytes, err := ioutil.ReadFile(fileName)
+				if err != nil {
+					log.Fatalln("Unable read file: ", err)
+				}
 
-				//photoFileBytes := tgbotapi.FileBytes{
-				//	Name:  "picture",
-				//	Bytes: photoBytes,
-				//}
+				photoFileBytes := tgbotapi.FileBytes{
+					Name:  "picture",
+					Bytes: photoBytes,
+				}
 
-				//_, _ = bot.Send(tgbotapi.NewPhotoUpload(update.Message.Chat.ID, photoFileBytes))
-				_, err = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "Я родился"))
+				num := 1
+				text := fmt.Sprintf("Это %v", num)
+				_, _ = bot.Send(tgbotapi.NewPhotoUpload(update.Message.Chat.ID, photoFileBytes))
+				_, err = bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, text))
 
 				if err != nil {
 					log.Fatalln("Unable send photo: ", err)
 				}
 				// ToDo брать время из конфига
-				time.Sleep(20 * time.Second)
+				time.Sleep(30 * time.Second)
 
 			}
 
