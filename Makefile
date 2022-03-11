@@ -23,7 +23,7 @@ endif
 .PHONY: .lint
 .lint: install-lint
 	$(info Running lint...)
-	$(GOLANGCI_BIN) run --new-from-rev=origin/master --config=.golangci.pipeline.yaml ./...
+	$(GOLANGCI_BIN) run  --config=.golangci.pipeline.yaml ./...
 
 # golangci-lint diff master
 .PHONY: lint

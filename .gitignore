@@ -12,11 +12,12 @@
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor
 /.env
 .env
 .idea
 /bot_god_say_go
-/vendor/
 /bible_app/
 .DS_Store
+/bin/golangci-lint
+/bibile_app_images/

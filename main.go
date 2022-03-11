@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/joho/godotenv"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"os"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 func init() {
@@ -45,7 +46,7 @@ func main() {
 
 		if update.Message.Text == "/start" {
 			for {
-				fileName := fmt.Sprintf("../bible_app/bible-%d.JPG", Random(1, 516))
+				fileName := fmt.Sprintf("bibile_app_images/bible-%d.JPG", Random(1, 516))
 
 				photoBytes, err := ioutil.ReadFile(fileName)
 				if err != nil {
