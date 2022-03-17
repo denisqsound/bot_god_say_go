@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/denisqsound/bot_god_say_go/helpers"
+	"github.com/denisqsound/bot_god_say_go/internal"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"io/ioutil"
 	"log"
-	"math/rand"
-	"os"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -22,7 +22,11 @@ func init() {
 // 516 уникальных картинок до 16 февраля 2022 года
 
 func main() {
-	botToken, _ := os.LookupEnv("TOKEN")
+
+	botToken := internal.GetToken()
+	timeSleep := internal.GetTime()
+	internal.CheckFolderImages()
+
 	bot, err := tgbotapi.NewBotAPI(botToken)
 	if err != nil {
 		log.Panic(err)
@@ -46,7 +50,7 @@ func main() {
 
 		if update.Message.Text == "/start" {
 			for {
-				fileName := fmt.Sprintf("bibile_app_images/bible-%d.JPG", Random(1, 516))
+				fileName := fmt.Sprintf("bibile_app_images/bible-%d.JPG", helpers.Random(1, 516))
 
 				photoBytes, err := ioutil.ReadFile(fileName)
 				if err != nil {
@@ -66,22 +70,9 @@ func main() {
 				if err != nil {
 					log.Fatalln("Unable send photo: ", err)
 				}
-				// ToDo брать время из конфига
-				time.Sleep(24 * time.Hour)
 
+				time.Sleep(time.Duration(timeSleep) * time.Second)
 			}
-
 		}
-
-	}
-
-}
-
-func Random(min, max int) int {
-	rand.Seed(time.Now().UnixNano())
-	if min > max {
-		return min
-	} else {
-		return rand.Intn(max-min) + min
 	}
 }
