@@ -4,8 +4,12 @@ LOCAL_BIN:=$(CURDIR)/bin
 GOLANGCI_BIN:=$(LOCAL_BIN)/golangci-lint
 GOLANGCI_TAG:=1.38.0
 
-run:
-	go run main.go
+
+.PHONY: build
+build:
+	$(info Building...)
+	$ go build -o ./cmd/holy-bot
+	$ chmod +x ./cmd/holy-bot
 
 
 # install golangci-lint binary

@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/denisqsound/bot_god_say_go/helpers"
-	"github.com/denisqsound/bot_god_say_go/internal"
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"io/ioutil"
 	"log"
 	"time"
+
+	"github.com/denisqsound/bot_god_say_go/helpers"
+	"github.com/denisqsound/bot_god_say_go/internal"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 
 	"github.com/joho/godotenv"
 )
@@ -38,6 +39,9 @@ func main() {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 10
 	updates, err := bot.GetUpdatesChan(u)
+	if err != nil {
+		log.Fatalf("Can't get update chan %v", err)
+	}
 
 	for update := range updates {
 
