@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"time"
 
 	"github.com/denisqsound/bot_god_say_go/helpers"
@@ -54,7 +55,8 @@ func main() {
 
 		if update.Message.Text == "/start" {
 			for {
-				fileName := fmt.Sprintf("bibile_app_images/bible-%d.JPG", helpers.Random(1, 516))
+				pathImages, _ := os.LookupEnv("PICTURE_PATH")
+				fileName := fmt.Sprintf("%v/bible-%d.JPG", pathImages, helpers.Random(1, 516))
 
 				photoBytes, err := ioutil.ReadFile(fileName)
 				if err != nil {
